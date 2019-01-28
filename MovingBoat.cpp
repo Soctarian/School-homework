@@ -107,13 +107,13 @@ void CProgramDlg::OnPaint()
 			y2 = w.bottom = y1 + 8 * dy;
 
 
-			CorpusShip(x1, y1, x2, y2, dx, dy);
+			CorpusBoat(x1, y1, x2, y2, dx, dy);
 
 
-			ElluminateShip(x1, y1, dx, dy);
+			ElluminateBoat(x1, y1, dx, dy);
 
 
-			Ship(x1, y1, x2, y2, dx, dy);
+			MainBoat(x1, y1, x2, y2, dx, dy);
 		}
 
 
@@ -133,7 +133,7 @@ HCURSOR CProgramDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-void CProgramDlg::CorpusShip(int X1, int Y1, int X2, int Y2, int DX, int DY)
+void CProgramDlg::CorpusBoat(int X1, int Y1, int X2, int Y2, int DX, int DY)
 {
 	CClientDC dc(this);
 	GetClientRect(&rc);
@@ -155,7 +155,7 @@ void CProgramDlg::CorpusShip(int X1, int Y1, int X2, int Y2, int DX, int DY)
 
 }
 
-void CProgramDlg::ElluminateShip(int X1, int Y1, int DX, int DY)
+void CProgramDlg::ElluminateBoat(int X1, int Y1, int DX, int DY)
 {
 	CClientDC dc(this);
 	GetClientRect(&rc);
@@ -180,7 +180,7 @@ void CProgramDlg::ElluminateShip(int X1, int Y1, int DX, int DY)
 }
 
 
-void CProgramDlg::Ship(int X1, int Y1, int X2, int Y2, int DX, int DY)
+void CProgramDlg::MainBoat(int X1, int Y1, int X2, int Y2, int DX, int DY)
 {
 	CClientDC dc(this);
 	GetClientRect(&rc);

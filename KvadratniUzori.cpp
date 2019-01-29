@@ -1,59 +1,145 @@
 // ProgramDlg.h : header file
+// ProgramDlg.cpp : implementation file
 //
 
-#pragma once
+#include "stdafx.h"
+#include "Program.h"
+#include "ProgramDlg.h"
+#include "afxdialogex.h"
 
-#define mtime 298
-#define PI 3.1415926535897932384626433832795
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
 
 
 // CProgramDlg dialog
-class CProgramDlg : public CDialog
+
+
+
+CProgramDlg::CProgramDlg(CWnd* pParent /*=nullptr*/)
+	: CDialog(IDD_PROGRAM_DIALOG, pParent)
 {
-	// Construction
-public:
-	CProgramDlg(CWnd* pParent = nullptr);	// standard constructor
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+}
 
-											// Dialog Data
-#ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_PROGRAM_DIALOG };
-#endif
+void CProgramDlg::DoDataExchange(CDataExchange* pDX)
+{
+	fg = true;
 
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
+	SetWindowTextW(L"Program");
 
+	CDialog::DoDataExchange(pDX);
+}
 
-														// Implementation
-protected:
-	HICON m_hIcon;
-
-	// Generated message map functions
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-
-	afx_msg void KWD(int X, int Y, int D);
+BEGIN_MESSAGE_MAP(CProgramDlg, CDialog)
+	ON_WM_PAINT()
+	ON_WM_QUERYDRAGICON()
+END_MESSAGE_MAP()
 
 
-private:
+// CProgramDlg message handlers
 
-	COLORREF cf, c[25];
-	HFONT hold, hNew, hbk;
-	HPEN hPenOxy, hOldPen, pen;
-	HBRUSH m, oldm, brush;
-	CPen d, oldd;
-	CBitmap pic;
-	CRect rc, w, kw[30];
+BOOL CProgramDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
 
-	CString ms, t, z;
+	// Set the icon for this dialog.  The framework does this automatically
+	//  when the application's main window is not a dialog
+	SetIcon(m_hIcon, TRUE);			// Set big icon
+	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	int Matrix[50][50];
-	int x1, y1, x2, y2, x3, y3, x4, y4;
-	int RH, RW, k, i, j, p, x, y, cx, cy, dx, dy;
-	bool fg;
+									// TODO: Add extra initialization here
+
+	return TRUE;  // return TRUE  unless you set the focus to a control
+}
+
+// If you add a minimize button to your dialog, you will need the code below
+//  to draw the icon.  For MFC applications using the document/view model,
+//  this is automatically done for you by the framework.
+
+void CProgramDlg::OnPaint()
+{
+	if (IsIconic())
+	{
+		CPaintDC dc(this); // device context for painting
+
+		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+
+		// Center icon in client rectangle
+		int cxIcon = GetSystemMetrics(SM_CXICON);
+		int cyIcon = GetSystemMetrics(SM_CYICON);
+		CRect rect;
+		GetClientRect(&rect);
+		int x = (rect.Width() - cxIcon + 1) / 2;
+		int y = (rect.Height() - cyIcon + 1) / 2;
+
+		// Draw the icon
+		dc.DrawIcon(x, y, m_hIcon);
+	}
+	else
+	{
+
+
+		CClientDC dc(this);
+		GetClientRect(&rc);
+		double m, s;
+		s = 2;
+		m = sqrt(s);
+		dc.FillSolidRect(&rc, RGB(255, 255, 255));
+
+		cf = RGB(0, 0, 0);
+		hPenOxy = CreatePen(PS_SOLID, 3, cf);
+		hOldPen = (HPEN)SelectObject(dc, hPenOxy);
+
+
+		// TODO
+
+		x1 = 125;
+		y1 = 20;
+		int dd = 700;
+		for (i = 0; i < 4; i++)
+			for (j = 0; j < 3; j++)
+			{
+				dc.Rectangle(20 + 140 * i, 20 + 140 * j, 150 + 140 * i, 150 + 140 * j);
+			}
 
 
 
+		for (i = 0; i < 3; i++)
+			for (j = 0; j < 2; j++)
+			{
+				dc.Rectangle(90 + 140 * i, 90 + 140 * j, 220 + 140 * i, 220 + 140 * j);
+			}
 
-	DECLARE_MESSAGE_MAP()
-};
+
+
+		SelectObject(dc, hOldPen);
+		DeleteObject(hPenOxy);
+
+		CDialog::OnPaint();
+	}
+}
+
+// The system calls this function to obtain the cursor to display while the user drags
+//  the minimized window.
+HCURSOR CProgramDlg::OnQueryDragIcon()
+{
+	return static_cast<HCURSOR>(m_hIcon);
+}
+
+void CProgramDlg::KWD(int X, int Y, int D)
+{
+	CClientDC dc(this);
+	hPenOxy = CreatePen(PS_SOLID, 3, cf);
+	hOldPen = (HPEN)SelectObject(dc, hPenOxy);
+	dc.MoveTo(X, Y);
+	double m, s;
+	s = 2;
+	m = sqrt(s);
+	double d = D / m;
+	dx = d;
+	dc.LineTo(X + dx, Y);
+	dc.LineTo(X + d, Y + d);
+	dc.LineTo(X, Y + d);
+	dc.LineTo(X, Y);
+}
